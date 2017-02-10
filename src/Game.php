@@ -5,6 +5,7 @@ class Game
     private $questions;
     private $correctAnswer;
     private $userAnswers;
+    private $remainingAlphabet;
     private $wrongAnswers;
 
     function __construct()
@@ -14,6 +15,8 @@ class Game
         $this->correctAnswer = array();
 
         $this->userAnswers = array();
+
+        $this->remainingAlphabet = array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
 
         $this->wrongAnswers = 0;
     }
@@ -45,6 +48,15 @@ class Game
         $this->userAnswers = $userAnswers;
     }
 
+    function getRemainingAlphabet()
+    {
+        return $this->remainingAlphabet;
+    }
+    function setRemainingAlphabet($remainingAlphabet)
+    {
+        $this->remainingAlphabet = $remainingAlphabet;
+    }
+
     function save()
     {
         $_SESSION['game'] = $this;
@@ -63,8 +75,16 @@ class Game
         $answer = preg_replace("/\s/","",$answer);
         $answer = str_split($answer);
         $this->correctAnswer = $answer;
-        var_dump($this->correctAnswer);
+
+        //set userAnswers with _ _ _ _...till the question's lentgh
+
+        for($i=0; $i<count($answer); $i++){
+            array_push($this->userAnswers,'_');
+        }
+        var_dump($this->userAnswers);
     }
+
+
 
 
 
