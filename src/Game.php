@@ -10,7 +10,7 @@ class Game
 
     function __construct()
     {
-        $this->questions = array("Beatles", "Monkees", "Bob Dylan", "The Rolling Stones", "The Ramones");
+        $this->questions = array("beatles", "monkees", "bob dylan", "the rolling stones", "the ramones");
 
         $this->correctAnswer = array();
 
@@ -38,6 +38,17 @@ class Game
     {
         $this->correctAnswer = $correctAnswer;
     }
+
+    function getWrongAnswers()
+    {
+        return $this->wrongAnswers;
+    }
+    function setWrongAnswers($wrongAnswers)
+    {
+        $this->wrongAnswers = $wrongAnswers;
+    }
+
+
 
     function getUserAnswers()
     {
@@ -82,6 +93,50 @@ class Game
             array_push($this->userAnswers,'_');
         }
         var_dump($this->userAnswers);
+    }
+
+    function checkAnswers($input)
+    {
+        //if answer was wrong, add +1 to wrongAnswers counter
+        if(array_search(strtolower($input), $this->correctAnswer) === false )
+        {
+            if (!array_search(strtolower($input), $this->remainingAlphabet) === false ){
+                $this->wrongAnswers += 1;
+            }
+        } else {
+            $correctKeys = array_keys($this->correctAnswer, strtolower($input));
+
+            foreach($correctKeys as $correctKey){
+                array_splice($this->userAnswers, $correctKey, 1, $input);
+            }
+        }
+
+        // remove from available letters
+        $position = array_search(strtolower($input), $this->remainingAlphabet);
+        if ($position !== false){
+            array_splice($this->remainingAlphabet, $position, 1, "_");
+        }
+
+        //if answer is correct, insert the correct letter to userAnswers
+    }
+
+    function checkWin(){
+
+
+        if(array_search("_", $this->userAnswers) === false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function checkLose(){
+
+        if($this->wrongAnswers == 6){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

@@ -33,6 +33,9 @@
                     {% endfor %}
                     </ul>
 
+                    <p>Wrong counter</p>
+                    {{game.getWrongAnswers}}
+
                     <form action='/' method='post'>
                         <label for='letter-input'>Please Choose a letter</label>
                         <input type='text' maxlength='1' pattern='[a-z]*[A-Z]*' name='letter-input'>

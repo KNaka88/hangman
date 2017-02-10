@@ -28,6 +28,18 @@
     });
 
     $app->post('/', function() use ($app) {
+        $game = $_SESSION['game'];
+        $userLetter = $_POST['letter-input'];
+
+        $game->checkAnswers($userLetter);
+        $game->save();
+        if($game->checkWin()){
+            return $app['twig']->render('win.html.twig', array('game' => $_SESSION['game']));
+        };
+        if($game->checkLose()){
+            return $app['twig']->render('lose.html.twig', array('game' => $_SESSION['game']));
+        };
+
         var_dump($_SESSION['game']->getCorrectAnswer());
         return $app['twig']->render('game.html.twig', array('game' => $_SESSION['game']));
     });
